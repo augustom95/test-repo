@@ -1,1 +1,1 @@
-# test-repo ![code-coverage](https://img.shields.io/badge/code--coverage-37.57%25-red)
+# test-repo ![code-coverage](https://img.shields.io/badge/code--coverage-10%25-red)
