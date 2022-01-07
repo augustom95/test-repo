@@ -16,15 +16,12 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
 
-      - name: Install Yarn
-        run: npm i -g yarn
-
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm install
 
       - name: Set code coverage commit status 📫
         if: github.event_name == 'pull_request' && github.base_ref == 'master'
-        run: yarn run check-codecov
+        run: npm run check-codecov
         env:
           # set the SHA of the _merged_ commit so the status check goes to PR
           GH_SHA: ${{ github.event.after }}
@@ -34,7 +31,7 @@ jobs:
       - name: Update code coverage badge 🥇
         # https://help.github.com/en/actions/reference/events-that-trigger-workflows#push-event-push
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: yarn run update-codecov-badge
+        run: npm run update-codecov-badge
 
       # commit any changed files (like README with updated badge)
       # if running on master branch

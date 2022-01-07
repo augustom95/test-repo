@@ -1,5 +1,7 @@
-import path from 'path';
-import fs from 'fs';
+// import path from 'path';
+const path = require('path');
+// import fs from 'fs';
+const fs = require('fs');
 
 /**
  * Reads coverage JSON file produced with NYC reporter "json-summary"
@@ -7,14 +9,14 @@ import fs from 'fs';
  * @param {string} filename File to read, by default "coverage/coverage-summary.json"
  * @returns {number} Percentage from 0 to 100
  */
-export function readCoverage() {
+function readCoverage() {
   const filename = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
   console.log('reading coverage summary from: %s', filename);
   const coverage = JSON.parse(fs.readFileSync(filename, 'utf-8'));
   return coverage.total.statements.pct;
 }
 
-export function toPercentage(x) {
+function toPercentage(x) {
   if (typeof x !== 'number') {
     throw new Error(`Expected ${x} to be a number, not ${typeof x}`);
   }
@@ -89,11 +91,15 @@ function getCoverageFromText(text) {
   return pct;
 }
 
-export const badge = {
-  availableColors,
-  availableColorsReStr,
-  getCoverageFromReadme,
-  getCoverageFromText,
-  getCoverageRe,
-  getCoverageBadge,
+module.exports = {
+  badge: {
+    availableColors,
+    availableColorsReStr,
+    getCoverageFromReadme,
+    getCoverageFromText,
+    getCoverageRe,
+    getCoverageBadge,  
+  },
+  toPercentage,
+  readCoverage
 };

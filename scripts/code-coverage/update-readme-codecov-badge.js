@@ -1,8 +1,12 @@
-import path from 'path';
-import fs from 'fs';
-import arg from 'arg';
+// import path from 'path';
+const path = require('path');
+// import fs from 'fs';
+const fs = require('fs');
+// import arg from 'arg';
+const arg = require('arg');
 
-import { readCoverage, toPercentage, badge } from './index.js';
+// import { readCoverage, toPercentage, badge } from './index.js';
+const { readCoverage, toPercentage, badge } = require('./index.js');
 
 function updateBadge(args) {
   let pct = 0;

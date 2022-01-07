@@ -1,7 +1,10 @@
-import axios from 'axios';
-import arg from 'arg';
+// import axios from 'axios';
+const axios = require('axios');
+// import arg from 'arg';
+const arg = require('arg');
 
-import { readCoverage, toPercentage, badge } from './index.js';
+// import { readCoverage, toPercentage, badge } from './index.js';
+const { readCoverage, toPercentage, badge } = require('./index.js');
 
 const args = arg({
   '--check-against-readme': Boolean,
