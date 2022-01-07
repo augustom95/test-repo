@@ -1,0 +1,45 @@
+---
+name: Test
+on:
+  push:
+    branches:
+    - development
+  pull_request:
+jobs:
+  code_coverage:
+    # in each pull request to development, compare current code coverage
+    # against the code coverage badge in README file
+    # Tip: if you really want to change code coverage you can edit that badge ...
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: Install Yarn
+        run: npm i -g yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Set code coverage commit status 📫
+        if: github.event_name == 'pull_request' && github.base_ref == 'master'
+        run: yarn run check-codecov
+        env:
+          # set the SHA of the _merged_ commit so the status check goes to PR
+          GH_SHA: ${{ github.event.after }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # if running on master branch, update the README code coverage badge
+      - name: Update code coverage badge 🥇
+        # https://help.github.com/en/actions/reference/events-that-trigger-workflows#push-event-push
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: yarn run update-codecov-badge
+
+      # commit any changed files (like README with updated badge)
+      # if running on master branch
+      # https://github.com/mikeal/publish-to-github-action
+      - uses: mikeal/publish-to-github-action@master
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

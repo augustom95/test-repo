@@ -1,0 +1,21 @@
+{
+  "name": "test-repo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check-codecov": "node scripts/code-coverage/check-codecov.js --check-against-readme",
+    "update-codecov-badge": "node scripts/code-coverage/update-readme-codecov-badge.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/augustom95/test-repo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/augustom95/test-repo/issues"
+  },
+  "homepage": "https://github.com/augustom95/test-repo#readme"
+}
