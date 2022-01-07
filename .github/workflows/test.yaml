@@ -1,6 +1,10 @@
 ---
-name: Test
-on: [push, pull_request]
+name: Code Coverage
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 jobs:
   code_coverage:
     # in each pull request to development, compare current code coverage
