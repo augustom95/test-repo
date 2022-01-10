@@ -16,6 +16,13 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
 
+      # just so you can see everything available in the event object
+      # https://help.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
+      - name: Dump GitHub context 🖨
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - name: Install dependencies
         run: npm install
 
@@ -33,15 +40,8 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: npm run update-codecov-badge
 
-      # commit any changed files (like README with updated badge)
-      # if running on master branch
-      # https://github.com/mikeal/publish-to-github-action
-      # - uses: mikeal/publish-to-github-action@master
-      #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: EndBug/add-and-commit@v7
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         with:
           author_name: Automated Publisher
           author_email: actions@users.noreply.github.com
