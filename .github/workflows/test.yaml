@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Set code coverage commit status 📫
-        if: github.event_name == 'pull_request' && github.base_ref == 'master'
+        if: github.event_name == 'pull_request' && github.base_ref == 'master' || github.event_name == 'push' && github.ref == 'refs/head/master'
         run: npm run check-codecov
         env:
           # set the SHA of the _merged_ commit so the status check goes to PR
