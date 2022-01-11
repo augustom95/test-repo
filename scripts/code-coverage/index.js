@@ -80,7 +80,7 @@ function getCoverageFromText(text) {
   const matches = coverageRe.exec(text);
 
   if (!matches) {
-    console.log('Could not find coverage badge in the given text');
+    console.log('Could not find coverage badge in the given text.');
     console.log(`text\n---\n${text}\n---`);
     return;
   }
