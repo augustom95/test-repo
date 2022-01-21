@@ -40,7 +40,7 @@ jobs:
         run: npm run coverage
 
       - name: Get master codecov
-        uses: actions/upload-artifact@v2
+        uses: actions/download-artifact@v2
         with:
           name: master-codecov
 
