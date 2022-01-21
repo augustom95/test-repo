@@ -47,6 +47,6 @@ jobs:
       - name: Print master codecov
         shell: bash
         run: |
-          value=`cat coverage/coverage-summary.json`
+          value=`cat master-codecov`
           echo The result is $value
   
