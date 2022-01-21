@@ -13,37 +13,74 @@ jobs:
     name: Code Coverage
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎
-        uses: actions/checkout@v2
+      # - name: Checkout 🛎
+      #   uses: actions/checkout@v2
 
-      # just so you can see everything available in the event object
-      # https://help.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
-      - name: Dump GitHub context 🖨
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      # # just so you can see everything available in the event object
+      # # https://help.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions
+      # - name: Dump GitHub context 🖨
+      #   env:
+      #     GITHUB_CONTEXT: ${{ toJson(github) }}
+      #   run: echo "$GITHUB_CONTEXT"
+
+      # - name: Install dependencies
+      #   run: npm install
+
+      # - name: Set code coverage commit status 📫
+      #   run: npm run check-codecov
+      #   env:
+      #     # set the SHA of the _merged_ commit so the status check goes to PR
+      #     GH_SHA: ${{ github.event.after }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # # if running on master branch, update the README code coverage badge
+      # - name: Update code coverage badge 🥇
+      #   # https://help.github.com/en/actions/reference/events-that-trigger-workflows#push-event-push
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      #   run: npm run update-codecov-badge
+
+      # - uses: EndBug/add-and-commit@v7
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      #   with:
+      #     author_name: Automated Publisher
+      #     author_email: actions@users.noreply.github.com
+      #     message: 'update readme codecov badge'
+      #     committer_name: GitHub Actions
+      #     committer_email: actions@github.com
+
+
+      - name: Checkout to master branch 🛎
+        uses: actions/checkout@v2
+        with:
+          ref: master
 
       - name: Install dependencies
         run: npm install
 
-      - name: Set code coverage commit status 📫
-        run: npm run check-codecov
-        env:
-          # set the SHA of the _merged_ commit so the status check goes to PR
-          GH_SHA: ${{ github.event.after }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # if running on master branch, update the README code coverage badge
-      - name: Update code coverage badge 🥇
-        # https://help.github.com/en/actions/reference/events-that-trigger-workflows#push-event-push
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-        run: npm run update-codecov-badge
-
-      - uses: EndBug/add-and-commit@v7
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      - name: Run code coverage
+        run: npm run coverage
+        uses: actions/upload-artifact@v2
         with:
-          author_name: Automated Publisher
-          author_email: actions@users.noreply.github.com
-          message: 'update readme codecov badge'
-          committer_name: GitHub Actions
-          committer_email: actions@github.com
+          name: master-codecov
+          path: coverage/coverage-summary.json
+
+      - name: Checkout to PR branch 🛎
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run code coverage
+        run: npm run coverage
+
+      - name: Get master codecov
+        uses: actions/upload-artifact@v2
+        with:
+          name: master-codecov
+
+      - name: Print master codecov
+        shell: bash
+        run: |
+          value=`cat coverage/coverage-summary.json`
+          echo The result is $value
+  
