@@ -7,7 +7,8 @@
     "test": "jest",
     "check-codecov": "node scripts/code-coverage/check-codecov.js --check-against-readme",
     "update-codecov-badge": "node scripts/code-coverage/update-readme-codecov-badge.js",
-    "coverage": "jest --silent --coverage __tests__"
+    "coverage": "jest --silent --coverage __tests__",
+    "compare-codecov": "node scripts/code-coverage/compare-codecov.js"
   },
   "repository": {
     "type": "git",

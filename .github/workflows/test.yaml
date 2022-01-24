@@ -61,3 +61,6 @@ jobs:
         run: |
           value=`cat coverage/coverage-summary.json`
           echo The result is $value
+
+      - name: Compare codecov
+        run: npm run compare-codecov
