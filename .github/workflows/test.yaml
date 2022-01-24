@@ -41,16 +41,16 @@ jobs:
         with:
           name: master-codecov
       
-      # - name: Move Master Codecov
-      #   shell: bash
-      #   run: |
-      #     mkdir master
-      #     mv coverage/coverage-summary.json master
+      - name: Move Master Codecov
+        shell: bash
+        run: |
+          mkdir master
+          mv coverage-summary.json master
 
       - name: Print master codecov
         shell: bash
         run: |
-          value=`cat coverage-summary.json`
+          value=`cat master/coverage-summary.json`
           echo The result is $value
   
       # - name: Run code coverage
