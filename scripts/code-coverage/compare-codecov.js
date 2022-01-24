@@ -9,14 +9,14 @@ const actualCodecov = readCoverageFromFile('coverage/coverage-summary.json');
 console.log('ACTUAL CODECOV', actualCodecov);
 
 if (actualCodecov < masterCodecov) {
-  console.error(`Code coverage has dropped ${masterCodecov - actualCodecov}%`);
-  process.exit(1);
+  console.error(`Code coverage has dropped by ${masterCodecov - actualCodecov}%`);
 }
 
 if (actualCodecov > masterCodecov) {
-  console.log(`Code coverage increased ${actualCodecov - masterCodecov}%`);
+  console.log(`Code coverage increased by ${actualCodecov - masterCodecov}%`);
+  process.exit(1);
 }
 
 if (actualCodecov === masterCodecov) {
-  console.log(`Code coverage stayed the same`);
+  console.log(`Code coverage stayed the same (${masterCodecov})`);
 }
