@@ -36,18 +36,21 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-
       - name: Get master codecov
         uses: actions/download-artifact@v2
         with:
           name: master-codecov
-      - shell: bash
-        run: mkdir master && mv coverage/coverage-summary.json master
+      
+      - name: Move Master Codecov
+        shell: bash
+        run: |
+          mkdir master
+          mv coverage/coverage-summary.json master
 
       - name: Print master codecov
         shell: bash
         run: |
-          value=`cat master/coverage/coverage-summary.json`
+          value=`cat master/coverage-summary.json`
           echo The result is $value
   
       - name: Run code coverage
