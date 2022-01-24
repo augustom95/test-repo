@@ -53,5 +53,11 @@ jobs:
           value=`cat master/coverage-summary.json`
           echo The result is $value
   
-      # - name: Run code coverage
-      #   run: npm run coverage
+      - name: Run code coverage
+        run: npm run coverage
+
+      - name: Print actual codecov
+        shell: bash
+        run: |
+          value=`cat coverage/coverage-summary.json`
+          echo The result is $value
