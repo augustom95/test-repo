@@ -10,13 +10,13 @@ console.log('ACTUAL CODECOV', actualCodecov);
 
 if (actualCodecov < masterCodecov) {
   console.error(`Code coverage has dropped by ${masterCodecov - actualCodecov}%`);
+  process.exit(1);
 }
 
 if (actualCodecov > masterCodecov) {
   console.log(`Code coverage increased by ${actualCodecov - masterCodecov}%`);
-  process.exit(1);
 }
 
 if (actualCodecov === masterCodecov) {
-  console.log(`Code coverage stayed the same (${masterCodecov})`);
+  console.log(`Code coverage stayed the same (${masterCodecov}%)`);
 }

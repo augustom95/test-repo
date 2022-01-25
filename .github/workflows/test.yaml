@@ -6,61 +6,86 @@ on:
       - master
   pull_request:
 jobs:
+  # code_coverage:
+  #   # in each pull request to development, compare current code coverage
+  #   # against the code coverage badge in README file
+  #   # Tip: if you really want to change code coverage you can edit that badge ...
+  #   name: Code Coverage
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout to master branch 🛎
+  #       uses: actions/checkout@v2
+  #       with:
+  #         ref: master
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Run code coverage
+  #       run: npm run coverage
+        
+  #     - name: Upload codecov
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: master-codecov
+  #         path: coverage/coverage-summary.json
+
+  #     - name: Checkout to PR branch 🛎
+  #       uses: actions/checkout@v2
+
+  #     - name: Install dependencies
+  #       run: npm install
+
+  #     - name: Get master codecov
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: master-codecov
+      
+  #     - name: Move Master Codecov
+  #       shell: bash
+  #       run: |
+  #         mkdir master
+  #         mv coverage-summary.json master
+
+  #     - name: Print master codecov
+  #       shell: bash
+  #       run: |
+  #         value=`cat master/coverage-summary.json`
+  #         echo The result is $value
+  
+  #     - name: Run code coverage
+  #       run: npm run coverage
+
+  #     - name: Print actual codecov
+  #       shell: bash
+  #       run: |
+  #         value=`cat coverage/coverage-summary.json`
+  #         echo The result is $value
+
+  #     - name: Compare codecov
+  #       run: npm run compare-codecov
+
   code_coverage:
-    # in each pull request to development, compare current code coverage
-    # against the code coverage badge in README file
-    # Tip: if you really want to change code coverage you can edit that badge ...
     name: Code Coverage
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout to master branch 🛎
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
           ref: master
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run code coverage
-        run: npm run coverage
-        
-      - name: Upload codecov
-        uses: actions/upload-artifact@v2
+      - run: npm install
+      - run: npm run coverage
+      - uses: actions/upload-artifact@v2
         with:
           name: master-codecov
           path: coverage/coverage-summary.json
-
-      - name: Checkout to PR branch 🛎
-        uses: actions/checkout@v2
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Get master codecov
-        uses: actions/download-artifact@v2
+      - uses: actions/checkout@v2
+      - run: npm install
+      - uses: actions/download-artifact@v2
         with:
           name: master-codecov
-      
-      - name: Move Master Codecov
-        shell: bash
+      - shell: bash
         run: |
           mkdir master
           mv coverage-summary.json master
-
-      - name: Print master codecov
-        shell: bash
-        run: |
-          value=`cat master/coverage-summary.json`
-          echo The result is $value
-  
-      - name: Run code coverage
-        run: npm run coverage
-
-      - name: Print actual codecov
-        shell: bash
-        run: |
-          value=`cat coverage/coverage-summary.json`
-          echo The result is $value
-
-      - name: Compare codecov
-        run: npm run compare-codecov
+      - run: npm run coverage
+      - run: npm run compare-codecov
