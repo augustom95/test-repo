@@ -18,7 +18,7 @@ function readCoverage() {
 
 function readCoverageFromFile(file) {
   const filename = path.join(process.cwd(), file);
-  console.log('reading coverage summary from: %s', filename);
+  // console.log('reading coverage summary from: %s', filename);
   const coverage = JSON.parse(fs.readFileSync(filename, 'utf-8'));
   return coverage.total.statements.pct;
 }
