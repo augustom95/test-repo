@@ -18,9 +18,6 @@ jobs:
       - id: set_mastercov
         run: |
           content=`cat coverage/coverage-summary.json`
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
           echo "::set-output name=mastercodecov::$content"
       - uses: actions/checkout@v2
       - run: npm install
@@ -28,9 +25,6 @@ jobs:
       - id: set_actualcov
         run: |
           content=`cat coverage/coverage-summary.json`
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
           echo "::set-output name=actualcodecov::$content"
       - id: set_codecovmsg
         run: |
