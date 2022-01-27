@@ -32,5 +32,5 @@ jobs:
       - run: npm install json
       - shell: bash
         run: |
-          export actualcodecov=$(cat master/coverage-summary.json | json total.statements.pct)
+          export actualcodecov=$(cat coverage/coverage-summary.json | json total.statements.pct)
           echo $actualcodecov
