@@ -29,13 +29,20 @@ jobs:
           mkdir master
           mv coverage-summary.json master
       - run: npm run coverage
-      - id: set_var
+      - id: set_actualcov
         run: |
           content=`cat coverage/coverage-summary.json`
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           echo "::set-output name=actualcodecov::$content"
+      - id: set_mastercov
+        run: |
+          content=`cat master/coverage-summary.json`
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=mastercodecov::$content"
       - run: |
-          export actualcov=$"${{fromJson(steps.set_var.outputs.actualcodecov).total.statements.pct}}"
-      - run: echo $actualcov
+          actualcov="${{fromJson(steps.set_var.outputs.actualcodecov).total.statements.pct}}"
+          echo $actualcov
