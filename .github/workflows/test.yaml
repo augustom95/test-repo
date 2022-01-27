@@ -15,19 +15,15 @@ jobs:
           ref: master
       - run: npm install
       - run: npm run coverage
-      - uses: actions/upload-artifact@v2
-        with:
-          name: master-codecov
-          path: coverage/coverage-summary.json
+      - id: set_mastercov
+        run: |
+          content=`cat coverage/coverage-summary.json`
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=mastercodecov::$content"
       - uses: actions/checkout@v2
       - run: npm install
-      - uses: actions/download-artifact@v2
-        with:
-          name: master-codecov
-      - shell: bash
-        run: |
-          mkdir master
-          mv coverage-summary.json master
       - run: npm run coverage
       - id: set_actualcov
         run: |
@@ -36,13 +32,6 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           echo "::set-output name=actualcodecov::$content"
-      - id: set_mastercov
-        run: |
-          content=`cat master/coverage-summary.json`
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          echo "::set-output name=mastercodecov::$content"
       - id: set_codecovmsg
         run: |
           actualcov="${{fromJson(steps.set_actualcov.outputs.actualcodecov).total.statements.pct}}"
