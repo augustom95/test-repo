@@ -16,6 +16,13 @@ function readCoverage() {
   return coverage.total.statements.pct;
 }
 
+function readCoverageFromFile(file) {
+  const filename = path.join(process.cwd(), file);
+  // console.log('reading coverage summary from: %s', filename);
+  const coverage = JSON.parse(fs.readFileSync(filename, 'utf-8'));
+  return coverage.total.statements.pct;
+}
+
 function toPercentage(x) {
   if (typeof x !== 'number') {
     throw new Error(`Expected ${x} to be a number, not ${typeof x}`);
@@ -101,5 +108,6 @@ module.exports = {
     getCoverageBadge,  
   },
   toPercentage,
-  readCoverage
+  readCoverage,
+  readCoverageFromFile,
 };
