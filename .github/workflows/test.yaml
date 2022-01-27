@@ -30,6 +30,7 @@ jobs:
           mv coverage-summary.json master
       - run: npm run coverage
       - run: npm install json
-      - run: |
+      - shell: bash
+        run: |
           export actualcodecov=$(cat master/coverage-summary.json | json total.statements.pct)
           echo $actualcodecov
