@@ -29,5 +29,6 @@ jobs:
           mkdir master
           mv coverage-summary.json master
       - run: npm run coverage
-      - run: val=$(npm run compare-codecov)
-      - run: echo $val
+      - run: |
+          val=$(npm run compare-codecov)
+          echo $val
