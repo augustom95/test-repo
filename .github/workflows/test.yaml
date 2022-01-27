@@ -29,8 +29,12 @@ jobs:
           mkdir master
           mv coverage-summary.json master
       - run: npm run coverage
-      - run: npm install json
-      - shell: bash
+      - id: set_var
         run: |
-          export actualcodecov=$(cat coverage/coverage-summary.json | json total.statements.pct)
-          echo $actualcodecov
+          content=`cat coverage/coverage-summary.json`
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          echo "::set-output name=actualcodecov::$content"
+      - run: |
+          echo "${{fromJson(steps.set_var.outputs.actualcodecov).total.statements.pct}}"
