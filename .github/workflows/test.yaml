@@ -29,7 +29,6 @@ jobs:
           mkdir master
           mv coverage-summary.json master
       - run: npm run coverage
-      # - run: npm run compare-codecov
       - run: |
           export actualcodecov=$(cat master/coverage-summary.json | json total.statements.pct)
           echo $actualcodecov
