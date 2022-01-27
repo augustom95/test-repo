@@ -44,5 +44,5 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           echo "::set-output name=mastercodecov::$content"
       - run: |
-          actualcov="${{fromJson(steps.set_var.outputs.actualcodecov).total.statements.pct}}"
+          actualcov="${{fromJson(steps.set_actualcov.outputs.actualcodecov).total.statements.pct}}"
           echo $actualcov
