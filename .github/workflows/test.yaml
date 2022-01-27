@@ -43,6 +43,19 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           echo "::set-output name=mastercodecov::$content"
-      - run: |
+      - id: set_codecovmsg
+        run: |
           actualcov="${{fromJson(steps.set_actualcov.outputs.actualcodecov).total.statements.pct}}"
-          echo $actualcov
+          mastercov="${{fromJson(steps.set_mastercov.outputs.mastercodecov).total.statements.pct}}"
+          if [ "$actualcov" -gt "$mastercov" ]; then covmsg="Actual code coverage is ${actualcov}"
+          echo "::set-output name=covmsg::$covmsg"
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: ${{fromJson(steps.set_codecovmsg.outputs.covmsg)}}
+            })
+          
