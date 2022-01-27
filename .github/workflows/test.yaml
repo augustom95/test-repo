@@ -29,7 +29,10 @@ jobs:
           mkdir master
           mv coverage-summary.json master
       - run: npm run coverage
-      - run: npm run compare-codecov
+      # - run: npm run compare-codecov
+      - run: |
+          export actualcodecov=$(cat master/coverage-summary.json | json total.statements.pct)
+          echo $actualcodecov
       - uses: actions/github-script@v5
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
@@ -38,5 +41,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Thanks for reporting!'
+              body: ${{actualcodecov}}
             })

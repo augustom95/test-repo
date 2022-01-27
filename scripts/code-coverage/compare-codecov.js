@@ -9,6 +9,7 @@ console.log(`ACTUAL CODECOV -> ${actualCodecov}%`);
 function compareCodecov(actualCodecov, masterCodecov) {
   if (actualCodecov < masterCodecov) {
     console.log(`Code coverage has dropped by ${masterCodecov - actualCodecov}%`);
+    
     process.exit(1);
   }
   
