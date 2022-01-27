@@ -47,10 +47,11 @@ jobs:
         run: |
           actualcov="${{fromJson(steps.set_actualcov.outputs.actualcodecov).total.statements.pct}}"
           mastercov="${{fromJson(steps.set_mastercov.outputs.mastercodecov).total.statements.pct}}"
+          if [ "$actualcov" -gt "$mastercov" ]; then covmsg="Code Coverage went up 📈 from ${mastercov}% to ${actualcov}%"; fi;
           if [ "$actualcov" -lt "$mastercov" ]; then covmsg="Code Coverage dropped 📉 from ${mastercov}% to ${actualcov}%"; fi;
           if [ "$actualcov" -eq "$mastercov" ]; then covmsg="Code Coverage stayed the same at ${actualcov}%"; fi;
           echo "::set-output name=covmsg::$covmsg"
-          if [ "$actualcov" -gt "$mastercov" ]; then covmsg="Code Coverage went up 📈 from ${mastercov}% to ${actualcov}%"; echo "::set-output name=covmsg::$covmsg"; exit 1; fi;
+          if [ "$actualcov" -gt "$mastercov" ]; then exit 1; fi;
       - uses: actions/github-script@v5
         with:
           script: |
